@@ -23,6 +23,15 @@ app.get("/", (_, res) => {
   res.send("Servidor funcionando correctamente 🚀");
 });
 
+// ✅ AÑADIR ESTO
+app.get("/healthz", (_, res) => res.send("ok"));
+
+app.get("/list", (_, res) => {
+  const files = fs.readdirSync(UPLOAD_DIR).slice(-200).reverse();
+  res.json(files);
+});
+// ✅ FIN DE LO AÑADIDO
+
 app.post("/upload", upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No file" });
   res.json({
